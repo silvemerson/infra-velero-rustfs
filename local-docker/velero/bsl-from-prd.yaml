@@ -1,0 +1,18 @@
+apiVersion: velero.io/v1
+kind: BackupStorageLocation
+metadata:
+  name: from-prd
+  namespace: velero
+spec:
+  provider: aws
+  objectStorage:
+    bucket: sparta-prd-backups
+  accessMode: ReadOnly
+  credential:
+    name: cloud-credentials
+    key: cloud
+  config:
+    s3Url: http://rustfs-lb:9000
+    publicUrl: http://localhost:9000
+    region: minio
+    s3ForcePathStyle: "true"
