@@ -266,14 +266,3 @@ velero --kubecontext kind-sparta-prd backup delete demo-backup-ha --confirm
 cd local-docker/kind && ./delete-clusters.sh
 cd ../rustfs && docker compose down -v
 ```
-
-## Limitações conhecidas (mencionar no slide, se fizer sentido)
-
-- O modo distribuído do RustFS é descrito pelo próprio time do projeto como
-  "em fase de testes" — não é recomendado para produção ainda
-  (referência: [rustfs/rustfs#2248](https://github.com/orgs/rustfs/discussions/2248)).
-- Este lab não usa volumes persistentes reais (PVCs) nas aplicações de
-  demo — o foco é mostrar o fluxo de backup/restore de recursos do
-  Kubernetes e a integração com o object storage, não backup de dados de
-  disco (`node-agent`/`kopia` está instalado e pronto para isso, mas não é
-  exercitado no `smoke-test.sh`).
