@@ -3,9 +3,18 @@
 Ambiente de laboratório para a palestra **"Velero + RustFS: backup open source
 para clusters Kubernetes"** (DevOps Days Juiz de Fora 2026).
 
-Este repositório contém a infraestrutura usada para gerar os prints da
-apresentação. O conteúdo dos slides fica em outro repositório
-(`devops-days-jf-2026-velero-rustfs`); aqui fica só o lab.
+Este é o repositório do lab:
+<https://github.com/silvemerson/infra-velero-rustfs>. Ele contém a
+infraestrutura usada para gerar os prints da apresentação e pode ser
+reproduzido em qualquer máquina com Docker. O conteúdo dos slides fica em
+outro repositório (`devops-days-jf-2026-velero-rustfs`); aqui fica só o lab.
+
+Para começar:
+
+```bash
+git clone https://github.com/silvemerson/infra-velero-rustfs.git
+cd infra-velero-rustfs
+```
 
 ## Visão geral do cenário
 
@@ -180,22 +189,34 @@ cd local-docker/velero
 ./smoke-test.sh
 ```
 
-O script:
+O script roda em 5 etapas, cada uma mostrando o comando real antes de
+executá-lo e parando no final, esperando Enter, para dar tempo de explicar o
+que aconteceu (pensado pra apresentar ao vivo, não só pra validar o lab):
 
 1. Cria um namespace `demo-app` no `sparta-prd` com um Deployment
-   (`nginx-demo`) e um ConfigMap.
-2. Faz um backup desse namespace com o Velero.
-3. Espera o backup sincronizar no `sparta-dr` (via `from-prd`).
-4. Restaura o backup no `sparta-dr`.
-5. Mostra os recursos restaurados, incluindo o conteúdo do ConfigMap — prova
-   de que os dados vieram do backup, não foram recriados do zero.
+   (`nginx-demo`) e um ConfigMap, e espera o pod ficar pronto.
+2. Faz um backup desse namespace com o Velero (`--wait`).
+3. Espera o backup sincronizar no `sparta-dr` (via `from-prd`) e mostra a
+   tabela do `velero backup get` assim que ele aparece.
+4. Restaura o backup no `sparta-dr` (`--wait`).
+5. Mostra os recursos restaurados e o conteúdo do ConfigMap — prova de que
+   os dados vieram do backup, não foram recriados do zero.
+
+Para rodar sem pausas (por exemplo, só para validar o ambiente antes do
+evento, sem apresentar):
+
+```bash
+PAUSE=0 ./smoke-test.sh
+```
 
 Esse é o roteiro de comandos recomendado para tirar os prints principais da
 palestra (estado do `velero backup describe`, `velero restore describe`,
 recursos no cluster de destino, console do RustFS mostrando o objeto do
 backup).
 
-Para limpar os recursos de demo sem derrubar o ambiente:
+Para limpar os recursos de demo sem derrubar o ambiente (apaga namespace,
+backup **e** o restore nos dois clusters, para o script poder ser rodado de
+novo do zero):
 
 ```bash
 ./cleanup-demo.sh

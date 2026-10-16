@@ -7,7 +7,14 @@ se você quer entender cada etapa em vez de só rodar `install-velero.sh` e
 Você precisa de Docker, `kind`, `kubectl`, o CLI `velero` e o `aws` CLI. O lab
 foi testado com Velero v1.15.2, plugin AWS v1.11.0 e kind v0.30.0.
 
-Todos os caminhos são relativos à pasta `local-docker/` do repositório.
+O lab está em <https://github.com/silvemerson/infra-velero-rustfs>. Clone o
+repositório e entre na pasta `local-docker/`; todos os caminhos deste manual
+são relativos a ela.
+
+```bash
+git clone https://github.com/silvemerson/infra-velero-rustfs.git
+cd infra-velero-rustfs/local-docker
+```
 
 ## O cenário
 
